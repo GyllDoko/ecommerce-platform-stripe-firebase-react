@@ -55,7 +55,7 @@ export async function getServerSideProps(context) {
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
   const session = await getSession(context)
-  const { user } = session
+  // const { user } = session
 
   if (!session) {
     return {
@@ -64,7 +64,7 @@ export async function getServerSideProps(context) {
   }
   // const userRef = doc(adminDb, "users", user.email)
   const stripeOrders = await adminDb.collection('users')
-    .doc(user.email)
+    .doc(session?.user.email)
     .collection('orders')
     .orderBy('timestamp', "desc")
     .get()
